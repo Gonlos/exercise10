@@ -1,14 +1,18 @@
 version: "3"
 services:
   message:
+    env_file:
+      - message/.env
     build: message/
+    image: message:exercise10
     ports:
-      - "9010:9010"
+      - "9007:9007"
     links:
       - messageapp
       - mongodb_message
       - replica_message
       - redis
+      - credit
     depends_on:
       - messageapp
       - mongodb_message
@@ -16,8 +20,11 @@ services:
       - redis
   credit:
     build: credit/
+    image: credit
+    env_file:
+      - credit/.env
     ports:
-      - "9020:9020"
+      - "9017:9017"
     links:
       - mongodb_credit
       - replica_credit
@@ -27,7 +34,7 @@ services:
       - replica_credit
       - redis
   messageapp:
-    image: cabify/backend-bootcamp-messageapp:exercise10
+    image: cabify/backend-bootcamp-messageapp
     ports:
       - "3000:3000"
 
@@ -65,3 +72,5 @@ services:
     image: redis
     ports:
       - 6379:6379
+    volumes:
+      - ./redis/data:/data
