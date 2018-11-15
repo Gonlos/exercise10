@@ -2,8 +2,11 @@ version: "3"
 services:
   message:
     build: message/
+    image: message
+    env_file:
+      - message/.env
     ports:
-      - "9010:9010"
+      - "9007:9007"
     links:
       - messageapp
       - mongodb_message
@@ -16,8 +19,10 @@ services:
       - redis
   credit:
     build: credit/
+    env_file:
+      - credit/.env
     ports:
-      - "9020:9020"
+      - "9017:9017"
     links:
       - mongodb_credit
       - replica_credit
