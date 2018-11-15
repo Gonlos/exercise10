@@ -9,5 +9,8 @@ queue.process("message", (job, done) => {
     .catch(e => debug("messages job error", e));
 
   debug("process:message", job.data);
-  sendMessage(job.data, done);
+  circuitBreaker
+    .exec(job.data, done)
+    .then(ok => debug("exec:ok", ok))
+    .catch(error => debug("exec:error", error.message));
 });
