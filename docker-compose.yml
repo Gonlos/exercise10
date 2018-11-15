@@ -5,6 +5,8 @@ services:
       - message/.env
     build: message/
     image: message:exercise10
+    env_file:
+      - message/.env
     ports:
       - "9007:9007"
     links:
